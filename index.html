@@ -2,12 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<!-- This site is hosted on Netlify. Anyone can build and deploy a site
-     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=058c756a-12b0-4147-be7d-4f81dd485291
-     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
-<meta name="hosting-provider" content="Netlify">
-<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=058c756a-12b0-4147-be7d-4f81dd485291">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>try{if(localStorage.getItem('interviewerbh-theme')==='dark')document.documentElement.classList.add('dark-mode');}catch(e){}</script>
 <title id="pageTitle">Interviewer.BH | علي المطوع — استشاري موارد بشرية</title>
 <meta id="pageDesc" name="description" content="Interviewer.BH — استشارات موارد بشرية، بناء سير ذاتية احترافية، التحضير للمقابلات الوظيفية، وحلول موارد بشرية للشركات في البحرين.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23D6487F'/%3E%3Cstop offset='.5' stop-color='%237C5CB0'/%3E%3Cstop offset='1' stop-color='%2316967F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M14 0L19 8L15.5 14L20 38L14 40L8 38L12.5 14L9 8Z' fill='url(%23g)'/%3E%3C/svg%3E">
@@ -35,10 +31,31 @@
     --radius: 22px;
     --font-display:'Markazi Text', serif;
     --font-body:'IBM Plex Sans Arabic', sans-serif;
+    --panel-dark:#1C2430;
+    --input-bg:#fff;
+    color-scheme: light;
   }
   html.lang-en{
     --font-display:'Lora', serif;
     --font-body:'Inter', sans-serif;
+  }
+  /* ---------- Dark mode ---------- */
+  html.dark-mode{
+    --ink:#EDEAE2;
+    --ink-2:#EDEAE2;
+    --ink-soft:#9CA6AC;
+    --sage:#8FB495;
+    --sage-deep:#8FB495;
+    --sage-tint:rgba(126,158,130,.16);
+    --sand:#14181D;
+    --paper:#1E242B;
+    --gold:#D9A555;
+    --gold-deep:#E0B368;
+    --line: rgba(255,255,255,.12);
+    --shadow: 0 24px 60px -24px rgba(0,0,0,.6);
+    --shadow-sm: 0 10px 30px -14px rgba(0,0,0,.5);
+    --input-bg:#262C34;
+    color-scheme: dark;
   }
 
   *{box-sizing:border-box;}
@@ -122,7 +139,7 @@
     border-color:var(--ink);
     color:var(--ink);
   }
-  .btn-outline:hover{background:var(--ink); color:#fff;}
+  .btn-outline:hover{background:var(--panel-dark); color:#fff;}
   .btn-sm{padding:10px 20px; font-size:.9rem;}
 
   /* ---------- Header ---------- */
@@ -131,8 +148,9 @@
     background:rgba(246,240,228,.82);
     backdrop-filter:blur(14px);
     border-bottom:1px solid var(--line);
-    transition:box-shadow .3s ease;
+    transition:box-shadow .3s ease, background .3s ease;
   }
+  html.dark-mode header{background:rgba(20,24,29,.82);}
   header.scrolled{box-shadow:0 8px 24px -18px rgba(28,36,48,.4);}
   .nav-wrap{
     display:flex; align-items:center; justify-content:space-between;
@@ -262,7 +280,7 @@
     color:var(--ink-soft); transition:all .25s ease;
   }
   .tab-btn.active{
-    background:var(--ink); color:#fff; border-color:var(--ink);
+    background:var(--panel-dark); color:#fff; border-color:var(--panel-dark);
   }
   .tab-panel{display:none;}
   .tab-panel.active{display:block; animation:fadein .5s ease;}
@@ -298,6 +316,10 @@
   }
   .package-card.silver{background:linear-gradient(160deg,#f3f4f2,#e8e9e6);}
   .package-card.gold{background:linear-gradient(160deg,#fbf1dd,#f2dfb4); border-color:rgba(184,134,59,.35);}
+  html.dark-mode .package-card.silver{background:linear-gradient(160deg,#2b3036,#22262b);}
+  html.dark-mode .package-card.gold{background:linear-gradient(160deg,#3a2f1a,#2e2614); border-color:rgba(224,179,104,.35);}
+  html.dark-mode .package-card.silver svg{stroke:#8FB495;}
+  html.dark-mode .package-card.gold svg{stroke:#E0B368;}
   .package-card h4{font-family:var(--font-display); font-size:1.6rem; margin-bottom:4px;}
   .package-price{font-family:'Inter',sans-serif; font-size:2.1rem; font-weight:700; color:var(--ink); margin:6px 0 18px;}
   .package-price small{font-size:1rem; font-weight:500; color:var(--ink-soft);}
@@ -309,7 +331,7 @@
   .corp-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px;}
   @media(max-width:760px){.corp-grid{grid-template-columns:1fr;}}
   .corp-card{
-    background:var(--ink); color:#f2efe7; border-radius:var(--radius);
+    background:var(--panel-dark); color:#f2efe7; border-radius:var(--radius);
     padding:28px 26px; display:flex; gap:18px; align-items:flex-start;
   }
   .corp-card .num-badge{
@@ -406,7 +428,7 @@
 
   /* ---------- Contact ---------- */
   .contact-banner{
-    background:linear-gradient(120deg, var(--ink) 0%, #2f3a48 100%);
+    background:linear-gradient(120deg, var(--panel-dark) 0%, #2f3a48 100%);
     border-radius:32px; padding:64px 48px; text-align:center; color:#fff;
     position:relative; overflow:hidden;
   }
@@ -504,7 +526,7 @@
   .svc-meta-item .v{font-family:'Inter',sans-serif; font-weight:700; font-size:1.05rem; color:var(--ink);}
   .svc-textarea{
     width:100%; border:1px solid var(--line); border-radius:14px; padding:14px 16px;
-    font-family:inherit; font-size:.95rem; color:var(--ink); background:#fff;
+    font-family:inherit; font-size:.95rem; color:var(--ink); background:var(--input-bg);
     resize:vertical; min-height:110px; margin-bottom:18px;
   }
   .svc-textarea:focus{outline:2px solid var(--sage-deep); outline-offset:1px;}
@@ -519,12 +541,12 @@
   .book-field label{font-size:.82rem; font-weight:600; color:var(--ink-soft);}
   .book-field select, .book-field input{
     border:1px solid var(--line); border-radius:12px; padding:11px 14px;
-    font-family:inherit; font-size:.95rem; background:#fff; color:var(--ink);
+    font-family:inherit; font-size:.95rem; background:var(--input-bg); color:var(--ink);
   }
   .book-field select:focus, .book-field input:focus{outline:2px solid var(--sage-deep); outline-offset:1px;}
   .book-hours-stepper{display:flex; align-items:center; gap:10px;}
   .book-hours-stepper button{
-    width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--input-bg);
     font-size:1.2rem; cursor:pointer; color:var(--ink); flex-shrink:0;
   }
   .book-hours-stepper button:hover{background:var(--sage-tint);}
@@ -556,7 +578,7 @@
   .cvform-field label .opt{color:var(--ink-soft); font-weight:400; font-size:.8em;}
   .cvform-field input, .cvform-field textarea, .cvform-field select{
     border:1px solid var(--line); border-radius:12px; padding:11px 14px;
-    font-family:inherit; font-size:.94rem; background:#fff; color:var(--ink); width:100%;
+    font-family:inherit; font-size:.94rem; background:var(--input-bg); color:var(--ink); width:100%;
   }
   .cvform-field input:focus, .cvform-field textarea:focus, .cvform-field select:focus{
     outline:2px solid var(--sage-deep); outline-offset:1px;
@@ -613,6 +635,9 @@
       <a href="#contact"><span class="i18n-ar">تواصل معنا</span><span class="i18n-en">Contact</span></a>
     </nav>
     <div class="header-actions">
+      <button class="lang-btn" id="darkBtn" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+        <svg id="darkBtnIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
       <button class="lang-btn" id="langBtn" type="button">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
         <span id="langBtnLabel">EN</span>
@@ -1427,6 +1452,26 @@
 
 <script>
   try{ document.getElementById('year').textContent = new Date().getFullYear(); }catch(e){}
+
+  // dark mode toggle
+  try{
+    const darkBtn = document.getElementById('darkBtn');
+    const darkBtnIcon = document.getElementById('darkBtnIcon');
+    const MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+    const SUN = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke-linecap="round"/>';
+    function applyDark(isDark){
+      document.documentElement.classList.toggle('dark-mode', isDark);
+      darkBtn.setAttribute('aria-pressed', String(isDark));
+      if(isDark){ darkBtnIcon.setAttribute('fill','none'); darkBtnIcon.setAttribute('stroke','currentColor'); darkBtnIcon.setAttribute('stroke-width','2'); darkBtnIcon.innerHTML = SUN; }
+      else{ darkBtnIcon.setAttribute('fill','currentColor'); darkBtnIcon.removeAttribute('stroke'); darkBtnIcon.removeAttribute('stroke-width'); darkBtnIcon.innerHTML = MOON; }
+    }
+    applyDark(document.documentElement.classList.contains('dark-mode'));
+    darkBtn.addEventListener('click', () => {
+      const now = !document.documentElement.classList.contains('dark-mode');
+      applyDark(now);
+      try{ localStorage.setItem('interviewerbh-theme', now ? 'dark' : 'light'); }catch(e){}
+    });
+  }catch(e){}
 
   // header shadow on scroll
   try{
