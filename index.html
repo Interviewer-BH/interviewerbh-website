@@ -2,6 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=058c756a-12b0-4147-be7d-4f81dd485291
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="hosting-provider" content="Netlify">
+<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=058c756a-12b0-4147-be7d-4f81dd485291">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="pageTitle">Interviewer.BH | علي المطوع — استشاري موارد بشرية</title>
 <meta id="pageDesc" name="description" content="Interviewer.BH — استشارات موارد بشرية، بناء سير ذاتية احترافية، التحضير للمقابلات الوظيفية، وحلول موارد بشرية للشركات في البحرين.">
@@ -223,6 +228,12 @@
     .floating-badge.b1{inset-inline-end:2%;}
     .floating-badge.b2{inset-inline-start:2%;}
   }
+  /* Phones: badges used to float on top of the photo and could sit off-position.
+     Stack them as normal, non-overlapping content instead — badge, then photo, then badge. */
+  @media(max-width:560px){
+    .hero-visual{flex-direction:column; align-items:center; gap:14px;}
+    .floating-badge{position:static;}
+  }
 
   /* ---------- About / values ---------- */
   .about-intro{max-width:74ch; font-size:1.06rem; color:var(--ink-soft); margin-bottom:48px;}
@@ -439,6 +450,140 @@
 
   /* focus visibility */
   a:focus-visible, button:focus-visible{outline:3px solid var(--sage-deep); outline-offset:3px; border-radius:6px;}
+
+  /* ================= Clickable service rows/cards ================= */
+  .price-row.svc-row, .price-row.svc-consult{
+    cursor:pointer; border-radius:12px; padding-inline:10px; margin-inline:-10px;
+    transition:background .2s ease;
+  }
+  .price-row.table-row.svc-row, .price-row.table-row.svc-consult{padding-inline:10px; margin-inline:-10px;}
+  .price-row.svc-row:hover, .price-row.svc-consult:hover{background:var(--sage-tint);}
+  .price-row.svc-row .label, .price-row.svc-consult .label{display:flex; align-items:center; gap:8px;}
+  .price-row.svc-row .label::after, .price-row.svc-consult .label::after{
+    content:"›"; color:var(--sage-deep); font-weight:700; font-size:1.1em;
+  }
+  .service-card.svc-row, .service-card.svc-consult, .corp-card.svc-row{cursor:pointer; transition:transform .2s ease, box-shadow .2s ease;}
+  .service-card.svc-row:hover, .service-card.svc-consult:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+  .corp-card.svc-row:hover{transform:translateY(-3px);}
+  .svc-open-hint{
+    margin-top:auto; padding-top:10px; font-size:.82rem; font-weight:600;
+    color:var(--sage-deep); display:flex; align-items:center; gap:6px;
+  }
+  .corp-card .svc-open-hint{color:var(--sage); margin-top:14px;}
+  .svc-cta-inline{
+    margin-top:18px; width:100%; justify-content:center;
+  }
+
+  /* ================= Modal shell (shared) ================= */
+  .svc-overlay{
+    position:fixed; inset:0; z-index:1000; display:none;
+    background:rgba(20,24,30,.55); backdrop-filter:blur(4px);
+    padding:20px; overflow-y:auto;
+  }
+  .svc-overlay.open{display:flex; align-items:flex-start; justify-content:center;}
+  .svc-sheet{
+    background:var(--paper); border-radius:var(--radius); max-width:560px; width:100%;
+    margin:auto; padding:34px 30px; position:relative; box-shadow:var(--shadow);
+    animation:sheetIn .3s ease;
+  }
+  .svc-sheet.wide{max-width:760px;}
+  @keyframes sheetIn{from{opacity:0; transform:translateY(18px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);}}
+  .svc-close{
+    position:absolute; top:18px; inset-inline-end:18px; width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--line); background:var(--paper); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size:1.3rem; line-height:1; color:var(--ink-soft);
+  }
+  .svc-close:hover{background:var(--sage-tint); color:var(--ink);}
+  .svc-sheet h3{font-size:1.5rem; margin-bottom:12px; padding-inline-end:34px;}
+  .svc-sheet .svc-desc{color:var(--ink-soft); font-size:.98rem; margin-bottom:20px;}
+  .svc-meta{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:22px;}
+  .svc-meta-item{
+    background:var(--sage-tint); border-radius:14px; padding:12px 18px; flex:1; min-width:140px;
+  }
+  .svc-meta-item .k{display:block; font-size:.78rem; color:var(--sage-deep); font-weight:600; margin-bottom:4px;}
+  .svc-meta-item .v{font-family:'Inter',sans-serif; font-weight:700; font-size:1.05rem; color:var(--ink);}
+  .svc-textarea{
+    width:100%; border:1px solid var(--line); border-radius:14px; padding:14px 16px;
+    font-family:inherit; font-size:.95rem; color:var(--ink); background:#fff;
+    resize:vertical; min-height:110px; margin-bottom:18px;
+  }
+  .svc-textarea:focus{outline:2px solid var(--sage-deep); outline-offset:1px;}
+  .svc-actions{display:flex; gap:12px; flex-wrap:wrap;}
+  .svc-actions .btn{flex:1; justify-content:center;}
+  .svc-note{font-size:.82rem; color:var(--ink-soft); opacity:.85; margin-top:14px;}
+
+  /* ================= Booking calculator (interview coaching) ================= */
+  .book-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px;}
+  @media(max-width:480px){.book-grid{grid-template-columns:1fr;}}
+  .book-field{display:flex; flex-direction:column; gap:6px;}
+  .book-field label{font-size:.82rem; font-weight:600; color:var(--ink-soft);}
+  .book-field select, .book-field input{
+    border:1px solid var(--line); border-radius:12px; padding:11px 14px;
+    font-family:inherit; font-size:.95rem; background:#fff; color:var(--ink);
+  }
+  .book-field select:focus, .book-field input:focus{outline:2px solid var(--sage-deep); outline-offset:1px;}
+  .book-hours-stepper{display:flex; align-items:center; gap:10px;}
+  .book-hours-stepper button{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    font-size:1.2rem; cursor:pointer; color:var(--ink); flex-shrink:0;
+  }
+  .book-hours-stepper button:hover{background:var(--sage-tint);}
+  .book-hours-stepper span{font-family:'Inter',sans-serif; font-weight:700; font-size:1.15rem; min-width:24px; text-align:center;}
+  .book-total{
+    background:var(--sage-tint); border-radius:14px; padding:16px 20px;
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;
+  }
+  .book-total .k{font-weight:600; color:var(--sage-deep); font-size:.92rem;}
+  .book-total .v{font-family:'Inter',sans-serif; font-weight:700; font-size:1.4rem; color:var(--ink);}
+  .book-warn{
+    background:#fbeaea; color:#a03c3c; border-radius:12px; padding:10px 14px;
+    font-size:.85rem; margin-bottom:16px; display:none;
+  }
+  .book-warn.show{display:block;}
+
+  /* ================= CV builder form ================= */
+  .cvform-section{margin-bottom:28px;}
+  .cvform-section h4{
+    font-family:var(--font-display); font-size:1.25rem; color:var(--sage-deep);
+    margin-bottom:16px; padding-bottom:10px; border-bottom:1px dashed var(--line);
+  }
+  .cvform-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:600px){.cvform-grid{grid-template-columns:1fr;}}
+  .cvform-field{display:flex; flex-direction:column; gap:6px; margin-bottom:14px;}
+  .cvform-field.full{grid-column:1/-1;}
+  .cvform-field label{font-size:.85rem; font-weight:600; color:var(--ink);}
+  .cvform-field label .req{color:var(--pink);}
+  .cvform-field label .opt{color:var(--ink-soft); font-weight:400; font-size:.8em;}
+  .cvform-field input, .cvform-field textarea, .cvform-field select{
+    border:1px solid var(--line); border-radius:12px; padding:11px 14px;
+    font-family:inherit; font-size:.94rem; background:#fff; color:var(--ink); width:100%;
+  }
+  .cvform-field input:focus, .cvform-field textarea:focus, .cvform-field select:focus{
+    outline:2px solid var(--sage-deep); outline-offset:1px;
+  }
+  .cvform-hint{font-size:.78rem; color:var(--ink-soft); opacity:.85;}
+  .cvform-repeat-item{
+    background:var(--sage-tint); border-radius:14px; padding:18px 18px 4px; margin-bottom:14px; position:relative;
+  }
+  .cvform-remove{
+    position:absolute; top:10px; inset-inline-end:10px; background:none; border:none; cursor:pointer;
+    color:var(--ink-soft); font-size:.85rem; font-weight:600; text-decoration:underline;
+  }
+  .cvform-add{
+    background:none; border:1.5px dashed var(--sage); color:var(--sage-deep); border-radius:12px;
+    padding:10px 16px; font-weight:600; font-size:.88rem; cursor:pointer; width:100%; margin-bottom:22px;
+  }
+  .cvform-add:hover{background:var(--sage-tint);}
+  .cvform-photo{
+    border:1.5px dashed var(--line); border-radius:14px; padding:16px; text-align:center;
+  }
+  .cvform-photo input{margin-bottom:8px;}
+  .cvform-status{
+    font-size:.85rem; border-radius:12px; padding:12px 16px; margin-top:16px; display:none;
+  }
+  .cvform-status.show{display:block;}
+  .cvform-status.err{background:#fbeaea; color:#a03c3c;}
+  .cvform-status.ok{background:var(--sage-tint); color:var(--sage-deep);}
 </style>
 </head>
 <body>
@@ -599,10 +744,13 @@
             <span class="i18n-en">A complete, professionally designed CV that highlights your real strengths, chosen from over 100 different designs.</span>
           </p>
           <div class="price-list">
-            <div class="price-row"><span class="label"><span class="i18n-ar">حديثي التخرج (٠–٣ سنوات)</span><span class="i18n-en">Recent graduates (0–3 yrs)</span></span><b>4.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-            <div class="price-row"><span class="label"><span class="i18n-ar">من ٣ إلى ١٠ سنوات خبرة</span><span class="i18n-en">3 to 10 years experience</span></span><b>6.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-            <div class="price-row"><span class="label"><span class="i18n-ar">أكثر من ١٠ سنوات خبرة</span><span class="i18n-en">10+ years experience</span></span><b>9.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+            <div class="price-row svc-row"><span class="label"><span class="i18n-ar">حديثي التخرج (٠–٣ سنوات)</span><span class="i18n-en">Recent graduates (0–3 yrs)</span></span><b>4.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+            <div class="price-row svc-row"><span class="label"><span class="i18n-ar">من ٣ إلى ١٠ سنوات خبرة</span><span class="i18n-en">3 to 10 years experience</span></span><b>6.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+            <div class="price-row svc-row"><span class="label"><span class="i18n-ar">أكثر من ١٠ سنوات خبرة</span><span class="i18n-en">10+ years experience</span></span><b>9.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
           </div>
+          <button type="button" class="btn btn-outline btn-sm svc-cta-inline" id="openCvFormCardBtn">
+            <span class="i18n-ar">ابدأ نموذج السيرة الذاتية</span><span class="i18n-en">Start the CV form</span>
+          </button>
         </div>
 
         <div class="service-card reveal">
@@ -615,8 +763,8 @@
             <span class="i18n-en">A short, convincing introduction letter, tailored specifically to the job you're applying for.</span>
           </p>
           <div class="price-list">
-            <div class="price-row"><span class="label"><span class="i18n-ar">حديثي التخرج إلى 5 سنوات</span><span class="i18n-en">Graduates up to 5 years</span></span><b>3.0 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-            <div class="price-row"><span class="label"><span class="i18n-ar">من 5 إلى 10 سنوات خبرة</span><span class="i18n-en">5 to 10 years experience</span></span><b>5.0 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+            <div class="price-row svc-row"><span class="label"><span class="i18n-ar">حديثي التخرج إلى 5 سنوات</span><span class="i18n-en">Graduates up to 5 years</span></span><b>3.0 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+            <div class="price-row svc-row"><span class="label"><span class="i18n-ar">من 5 إلى 10 سنوات خبرة</span><span class="i18n-en">5 to 10 years experience</span></span><b>5.0 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
           </div>
         </div>
 
@@ -630,8 +778,8 @@
             <span class="i18n-en">We simulate a real interview, practice the toughest questions, and get you ready to answer with confidence and clarity.</span>
           </p>
           <div class="price-list">
-            <div class="price-row"><span class="label"><span class="i18n-ar">تدريب عام</span><span class="i18n-en">General coaching</span></span><b>4.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-            <div class="price-row"><span class="label"><span class="i18n-ar">تدريب مخصص حسب الوظيفة</span><span class="i18n-en">Job-specific coaching</span></span><b>6.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+            <div class="price-row svc-booking"><span class="label"><span class="i18n-ar">تدريب عام</span><span class="i18n-en">General coaching</span></span><b>4.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+            <div class="price-row svc-booking"><span class="label"><span class="i18n-ar">تدريب مخصص حسب الوظيفة</span><span class="i18n-en">Job-specific coaching</span></span><b>6.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
             <div class="price-note">
               <span class="i18n-ar">كل ساعة إضافية بـ 2 د.ب فقط · خصم 20% للشخصين · خصم خاص للمجموعات</span>
               <span class="i18n-en">Every extra hour is just 2 BHD · 20% off for two people · special group discounts</span>
@@ -639,7 +787,7 @@
           </div>
         </div>
 
-        <div class="service-card reveal">
+        <div class="service-card reveal svc-row">
           <div class="service-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v10"/></svg>
           </div>
@@ -648,9 +796,10 @@
             <span class="i18n-ar">إنشاء وتهيئة حسابك على LinkedIn بشكل احترافي يعكس خبراتك ويزيد فرصك الوظيفية.</span>
             <span class="i18n-en">A fully set-up, professional LinkedIn profile that reflects your experience and boosts your job prospects.</span>
           </p>
+          <div class="svc-open-hint"><span class="i18n-ar">اضغط للتفاصيل والتواصل ‹</span><span class="i18n-en">Click for details ‹</span></div>
         </div>
 
-        <div class="service-card reveal">
+        <div class="service-card reveal svc-row">
           <div class="service-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1m-6 4h1m4 0h1"/></svg>
           </div>
@@ -659,9 +808,10 @@
             <span class="i18n-ar">مساعدتك في التسجيل والتقديم على الوظائف الحكومية عبر ديوان الخدمة المدنية.</span>
             <span class="i18n-en">We help you register and apply for government jobs through the Civil Service Bureau.</span>
           </p>
+          <div class="svc-open-hint"><span class="i18n-ar">اضغط للتفاصيل والتواصل ‹</span><span class="i18n-en">Click for details ‹</span></div>
         </div>
 
-        <div class="service-card reveal">
+        <div class="service-card reveal svc-consult">
           <div class="service-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg>
           </div>
@@ -670,6 +820,7 @@
             <span class="i18n-ar">استشارة فردية حول حقوقك الوظيفية: العقود، الاستقالة، الفصل التعسفي، والإجازات.</span>
             <span class="i18n-en">One-on-one advice on your workplace rights: contracts, resignation, unfair dismissal, and leave.</span>
           </p>
+          <div class="svc-open-hint"><span class="i18n-ar">اضغط لإرسال استفسارك ‹</span><span class="i18n-en">Click to send your question ‹</span></div>
         </div>
       </div>
 
@@ -683,6 +834,11 @@
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F6B54" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> <span class="i18n-ar">إنشاء حساب LinkedIn</span><span class="i18n-en">LinkedIn profile creation</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F6B54" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> <span class="i18n-ar">التدريب والتحضير للمقابلات</span><span class="i18n-en">Interview coaching &amp; preparation</span></li>
           </ul>
+          <a href="#" target="_blank" rel="noopener" class="btn btn-primary svc-cta-inline svc-pkg-cta"
+            data-wa-ar="مرحباً، أحتاج الاستفادة من الباقة الفضية (8 د.ب)."
+            data-wa-en="Hello, I'd like to get the Silver Package (8 BHD).">
+            <span class="i18n-ar">استفد من الباقة عبر واتساب</span><span class="i18n-en">Get this package on WhatsApp</span>
+          </a>
         </div>
         <div class="package-card gold reveal">
           <h4><span class="i18n-ar">الباقة الذهبية</span><span class="i18n-en">Gold Package</span></h4>
@@ -693,6 +849,11 @@
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8F6526" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> <span class="i18n-ar">ملف بأكثر الأسئلة شيوعاً للمراجعة الذاتية</span><span class="i18n-en">Most common interview questions file</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8F6526" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> <span class="i18n-ar">شرح لأهم قوانين وزارة العمل</span><span class="i18n-en">Explanation of key Ministry of Labour regulations</span></li>
           </ul>
+          <a href="#" target="_blank" rel="noopener" class="btn btn-gold svc-cta-inline svc-pkg-cta"
+            data-wa-ar="مرحباً، أحتاج الاستفادة من الباقة الذهبية (10 د.ب)."
+            data-wa-en="Hello, I'd like to get the Gold Package (10 BHD).">
+            <span class="i18n-ar">استفد من الباقة عبر واتساب</span><span class="i18n-en">Get this package on WhatsApp</span>
+          </a>
         </div>
       </div>
       <p class="package-foot">
@@ -704,32 +865,36 @@
     <!-- Companies -->
     <div class="tab-panel" id="companies">
       <div class="corp-grid">
-        <div class="corp-card reveal">
+        <div class="corp-card reveal svc-row">
           <span class="num-badge">1</span>
           <div>
             <h3><span class="i18n-ar">عقود العمل ولوائح الجزاءات</span><span class="i18n-en">Employment Contracts &amp; Disciplinary Policies</span></h3>
             <p><span class="i18n-ar">صياغة عقود عمل ولوائح جزاءات داخلية متوافقة مع قانون العمل البحريني، وجاهزة لاعتماد وزارة العمل.</span><span class="i18n-en">Drafting employment contracts and internal disciplinary policies that comply with Bahrain's labour law and are ready for Ministry of Labour approval.</span></p>
+            <div class="svc-open-hint"><span class="i18n-ar">اضغط لطلب عرض سعر ‹</span><span class="i18n-en">Click to request a quote ‹</span></div>
           </div>
         </div>
-        <div class="corp-card reveal">
+        <div class="corp-card reveal svc-row">
           <span class="num-badge">2</span>
           <div>
             <h3><span class="i18n-ar">أنظمة تقييم الأداء والترقيات</span><span class="i18n-en">Performance &amp; Promotion Systems</span></h3>
             <p><span class="i18n-ar">بناء معايير واضحة وعادلة لتقييم الموظفين والزيادات والترقيات، بعيداً عن العشوائية والمحسوبية.</span><span class="i18n-en">Building clear, fair criteria for employee evaluation, raises, and promotions — instead of guesswork or favouritism.</span></p>
+            <div class="svc-open-hint"><span class="i18n-ar">اضغط لطلب عرض سعر ‹</span><span class="i18n-en">Click to request a quote ‹</span></div>
           </div>
         </div>
-        <div class="corp-card reveal">
+        <div class="corp-card reveal svc-row">
           <span class="num-badge">3</span>
           <div>
             <h3><span class="i18n-ar">استراتيجيات التوظيف والاستقطاب</span><span class="i18n-en">Hiring &amp; Retention Strategy</span></h3>
             <p><span class="i18n-ar">حلول لخفض معدل دوران الموظفين، وتقليل تكلفة التوظيف المتكررة، واستقطاب الكفاءات المناسبة.</span><span class="i18n-en">Solutions to reduce staff turnover, cut recurring hiring costs, and attract the right talent.</span></p>
+            <div class="svc-open-hint"><span class="i18n-ar">اضغط لطلب عرض سعر ‹</span><span class="i18n-en">Click to request a quote ‹</span></div>
           </div>
         </div>
-        <div class="corp-card reveal">
+        <div class="corp-card reveal svc-row">
           <span class="num-badge">4</span>
           <div>
             <h3><span class="i18n-ar">الامتثال لقانون العمل البحريني</span><span class="i18n-en">Labour Law Compliance</span></h3>
             <p><span class="i18n-ar">مراجعة سياساتكم الداخلية والتأكد من مطابقتها الكاملة لقانون العمل، لتفادي أي مساءلة قانونية.</span><span class="i18n-en">Reviewing your internal policies to ensure full compliance with labour law, avoiding legal liability.</span></p>
+            <div class="svc-open-hint"><span class="i18n-ar">اضغط لطلب عرض سعر ‹</span><span class="i18n-en">Click to request a quote ‹</span></div>
           </div>
         </div>
       </div>
@@ -752,75 +917,75 @@
         </div>
       <div class="price-table-panel active" data-price-panel="hr">
       <div class="price-table">
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">استشارة في قانون العمل</span><span class="i18n-en">Labor Law Consultancy</span></span><b>3 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إعداد عقد عمل</span><span class="i18n-en">Creating Employment Contract</span></span><b>20 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إعداد عرض توظيف</span><span class="i18n-en">Creating Offer Letter</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">خطاب تثبيت بعد فترة التجربة</span><span class="i18n-en">Appointment Letter (After Probation)</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تقييم فترة التجربة</span><span class="i18n-en">Probation Evaluation / Assessment</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">خطاب عدم اجتياز فترة التجربة</span><span class="i18n-en">Unsatisfactory Probation Letter</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">خطاب قبول الاستقالة</span><span class="i18n-en">Resignation Acceptance Letter</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">شهادة خبرة / تعريف بالراتب</span><span class="i18n-en">Employment / Experience Certificate</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">نموذج تقييم أداء سنوي / نصف سنوي</span><span class="i18n-en">Annual / Semi-Annual Appraisal Form</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">خطاب إنهاء خدمة (لكل خطاب)</span><span class="i18n-en">Termination Letter (per letter)</span></span><b>20 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">لائحة الجزاءات التأديبية</span><span class="i18n-en">Penalty / Disciplinary Action List</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تصديق لائحة الجزاءات لدى وزارة العمل</span><span class="i18n-en">Attesting Disciplinary List at MOL</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تعديل لائحة الجزاءات التأديبية</span><span class="i18n-en">Amending Disciplinary Action List</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إنذار شفهي / كتابي</span><span class="i18n-en">Warning Letter – Verbal & Written</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إشعار تحسين الأداء (لكل خطاب)</span><span class="i18n-en">Performance Improvement Notice (per letter)</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">نموذج مقابلة نهاية الخدمة</span><span class="i18n-en">Exit Interview Form</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تصميم إعلان وظيفي</span><span class="i18n-en">Job Post Design</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">الوصف الوظيفي</span><span class="i18n-en">Job Description</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">شهادة راتب</span><span class="i18n-en">Salary Certificate</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">فرز المتقدمين (عبر البريد / لكل 100 سيرة)</span><span class="i18n-en">Shortlisting (Email Screening / per 100 CVs)</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">فرز المتقدمين (مقابلة هاتفية / لكل مرشح)</span><span class="i18n-en">Shortlisting (Phone Screening / per candidate)</span></span><b>3 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">حجز تذاكر السفر</span><span class="i18n-en">Booking Travel Tickets</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">احتساب مكافأة نهاية الخدمة</span><span class="i18n-en">End of Service Settlement Calculation</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">احتساب الرواتب الشهرية</span><span class="i18n-en">Monthly Payroll Processing</span></span><b>25 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-consult"><span class="label"><span class="i18n-ar">استشارة في قانون العمل</span><span class="i18n-en">Labor Law Consultancy</span></span><b>3 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إعداد عقد عمل</span><span class="i18n-en">Creating Employment Contract</span></span><b>20 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إعداد عرض توظيف</span><span class="i18n-en">Creating Offer Letter</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">خطاب تثبيت بعد فترة التجربة</span><span class="i18n-en">Appointment Letter (After Probation)</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تقييم فترة التجربة</span><span class="i18n-en">Probation Evaluation / Assessment</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">خطاب عدم اجتياز فترة التجربة</span><span class="i18n-en">Unsatisfactory Probation Letter</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">خطاب قبول الاستقالة</span><span class="i18n-en">Resignation Acceptance Letter</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">شهادة خبرة / تعريف بالراتب</span><span class="i18n-en">Employment / Experience Certificate</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">نموذج تقييم أداء سنوي / نصف سنوي</span><span class="i18n-en">Annual / Semi-Annual Appraisal Form</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">خطاب إنهاء خدمة (لكل خطاب)</span><span class="i18n-en">Termination Letter (per letter)</span></span><b>20 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">لائحة الجزاءات التأديبية</span><span class="i18n-en">Penalty / Disciplinary Action List</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تصديق لائحة الجزاءات لدى وزارة العمل</span><span class="i18n-en">Attesting Disciplinary List at MOL</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تعديل لائحة الجزاءات التأديبية</span><span class="i18n-en">Amending Disciplinary Action List</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إنذار شفهي / كتابي</span><span class="i18n-en">Warning Letter – Verbal & Written</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إشعار تحسين الأداء (لكل خطاب)</span><span class="i18n-en">Performance Improvement Notice (per letter)</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">نموذج مقابلة نهاية الخدمة</span><span class="i18n-en">Exit Interview Form</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تصميم إعلان وظيفي</span><span class="i18n-en">Job Post Design</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">الوصف الوظيفي</span><span class="i18n-en">Job Description</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">شهادة راتب</span><span class="i18n-en">Salary Certificate</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">فرز المتقدمين (عبر البريد / لكل 100 سيرة)</span><span class="i18n-en">Shortlisting (Email Screening / per 100 CVs)</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">فرز المتقدمين (مقابلة هاتفية / لكل مرشح)</span><span class="i18n-en">Shortlisting (Phone Screening / per candidate)</span></span><b>3 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">حجز تذاكر السفر</span><span class="i18n-en">Booking Travel Tickets</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">احتساب مكافأة نهاية الخدمة</span><span class="i18n-en">End of Service Settlement Calculation</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">احتساب الرواتب الشهرية</span><span class="i18n-en">Monthly Payroll Processing</span></span><b>25 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
       </div>
       </div>
       <div class="price-table-panel" data-price-panel="lmra">
       <div class="price-table">
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تسجيل سجل تجاري جديد</span><span class="i18n-en">New CR Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">طلب رفع سقف العمالة</span><span class="i18n-en">Increase Employment Ceiling</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">طلب تقدير حجم العمل</span><span class="i18n-en">Increase Workload Estimate</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إصدار فيزا عمل</span><span class="i18n-en">Employment Visa Issuance</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تجديد فيزا عمل</span><span class="i18n-en">Employment Visa Renewal</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إصدار فيزا ملحق (أفراد العائلة)</span><span class="i18n-en">Dependent Visa Issuance</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تجديد فيزا ملحق</span><span class="i18n-en">Dependent Visa Renewal</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إلغاء تصريح الإقامة</span><span class="i18n-en">RP Cancellation</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تغيير المسمى الوظيفي</span><span class="i18n-en">Occupation Change</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">سداد الفاتورة الشهرية</span><span class="i18n-en">Monthly Bill Payment</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تقديم تذكرة إلكترونية (فيزا ملغاة)</span><span class="i18n-en">Submitting e-Ticket (Cancelled Visa)</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تغيير العنوان</span><span class="i18n-en">Address Change</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">الموافقة على نقل كفالة موظف أجنبي</span><span class="i18n-en">Expat Transfer Approval</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إصدار خطاب عدم ممانعة</span><span class="i18n-en">NOC Issuance</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تسجيل سجل تجاري جديد</span><span class="i18n-en">New CR Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">طلب رفع سقف العمالة</span><span class="i18n-en">Increase Employment Ceiling</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">طلب تقدير حجم العمل</span><span class="i18n-en">Increase Workload Estimate</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إصدار فيزا عمل</span><span class="i18n-en">Employment Visa Issuance</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تجديد فيزا عمل</span><span class="i18n-en">Employment Visa Renewal</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إصدار فيزا ملحق (أفراد العائلة)</span><span class="i18n-en">Dependent Visa Issuance</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تجديد فيزا ملحق</span><span class="i18n-en">Dependent Visa Renewal</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إلغاء تصريح الإقامة</span><span class="i18n-en">RP Cancellation</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تغيير المسمى الوظيفي</span><span class="i18n-en">Occupation Change</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">سداد الفاتورة الشهرية</span><span class="i18n-en">Monthly Bill Payment</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تقديم تذكرة إلكترونية (فيزا ملغاة)</span><span class="i18n-en">Submitting e-Ticket (Cancelled Visa)</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تغيير العنوان</span><span class="i18n-en">Address Change</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">الموافقة على نقل كفالة موظف أجنبي</span><span class="i18n-en">Expat Transfer Approval</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إصدار خطاب عدم ممانعة</span><span class="i18n-en">NOC Issuance</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
       </div>
       </div>
       <div class="price-table-panel" data-price-panel="sio">
       <div class="price-table">
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تسجيل سجل تجاري جديد</span><span class="i18n-en">New CR Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تسجيل موظف جديد</span><span class="i18n-en">New Employee Registration</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إلغاء تسجيل موظف</span><span class="i18n-en">Employee Termination</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تحديث الراتب أو المسمى الوظيفي</span><span class="i18n-en">Update Salary / Position</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تقديم حالة إصابة عمل</span><span class="i18n-en">Submitting Work Injury Case</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تحديث اسم السجل التجاري</span><span class="i18n-en">Updating CR Name</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">سداد الفاتورة الشهرية</span><span class="i18n-en">Monthly Bill Payment</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تسجيل سجل تجاري جديد</span><span class="i18n-en">New CR Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تسجيل موظف جديد</span><span class="i18n-en">New Employee Registration</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إلغاء تسجيل موظف</span><span class="i18n-en">Employee Termination</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تحديث الراتب أو المسمى الوظيفي</span><span class="i18n-en">Update Salary / Position</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تقديم حالة إصابة عمل</span><span class="i18n-en">Submitting Work Injury Case</span></span><b>15 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تحديث اسم السجل التجاري</span><span class="i18n-en">Updating CR Name</span></span><b>7.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">سداد الفاتورة الشهرية</span><span class="i18n-en">Monthly Bill Payment</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
       </div>
       </div>
       <div class="price-table-panel" data-price-panel="mol">
       <div class="price-table">
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">إعلان شاغر وظيفي</span><span class="i18n-en">Vacancy Announcement</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تصفية المرشحين (مقابلات هاتفية)</span><span class="i18n-en">Shortlisting (Phone Interviews)</span></span><b>20 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تسجيل موظف جديد</span><span class="i18n-en">New Employee Registration</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">استخراج شهادة البحرنة</span><span class="i18n-en">Extracting Bahrainization Certificate</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">إعلان شاغر وظيفي</span><span class="i18n-en">Vacancy Announcement</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تصفية المرشحين (مقابلات هاتفية)</span><span class="i18n-en">Shortlisting (Phone Interviews)</span></span><b>20 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تسجيل موظف جديد</span><span class="i18n-en">New Employee Registration</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">استخراج شهادة البحرنة</span><span class="i18n-en">Extracting Bahrainization Certificate</span></span><b>3.5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
       </div>
       </div>
       <div class="price-table-panel" data-price-panel="tamkeen">
       <div class="price-table">
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تسجيل شركة جديدة</span><span class="i18n-en">Company Registration</span></span><b>50 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تسجيل سجل تجاري جديد</span><span class="i18n-en">New CR Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تسجيل موظف جديد</span><span class="i18n-en">New Employee Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
-        <div class="price-row table-row"><span class="label"><span class="i18n-ar">تقديم طلب دعم (لكل موظف)</span><span class="i18n-en">Submitting Subsidy Request (per employee)</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تسجيل شركة جديدة</span><span class="i18n-en">Company Registration</span></span><b>50 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تسجيل سجل تجاري جديد</span><span class="i18n-en">New CR Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تسجيل موظف جديد</span><span class="i18n-en">New Employee Registration</span></span><b>10 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
+        <div class="price-row table-row svc-row"><span class="label"><span class="i18n-ar">تقديم طلب دعم (لكل موظف)</span><span class="i18n-en">Submitting Subsidy Request (per employee)</span></span><b>5 <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></b></div>
       </div>
       </div>
       </div>
@@ -960,11 +1125,11 @@
           <p><span class="i18n-ar">راسلنا مباشرة عبر واتساب وأخبرنا شنو تحتاج.</span><span class="i18n-en">Message us directly on WhatsApp and tell us what you need.</span></p>
         </div>
       </div>
-      <div class="process-step reveal">
+      <div class="process-step reveal svc-row" id="openCvFormStep">
         <div class="step-num">2</div>
         <div>
           <h3><span class="i18n-ar">عبّي النموذج</span><span class="i18n-en">Fill in the form</span></h3>
-          <p><span class="i18n-ar">نرسل لك نموذج بسيط بمعلوماتك ومهاراتك وخبراتك.</span><span class="i18n-en">We send you a simple form for your details, skills, and experience.</span></p>
+          <p><span class="i18n-ar">نموذج فوري على الموقع بمعلوماتك ومهاراتك وخبراتك — اضغط لتعبئته الآن.</span><span class="i18n-en">An instant form right here on the site for your details, skills, and experience — click to fill it in now.</span></p>
         </div>
       </div>
       <div class="process-step reveal">
@@ -981,6 +1146,11 @@
           <p><span class="i18n-ar">تستلم سيرتك الذاتية جاهزة وبصيغة قابلة للتقديم فوراً.</span><span class="i18n-en">Get your finished CV, ready to submit right away.</span></p>
         </div>
       </div>
+    </div>
+    <div style="text-align:center; margin-top:44px;">
+      <button type="button" class="btn btn-gold" id="openCvFormBtn">
+        <span class="i18n-ar">ابدأ نموذج سيرتك الذاتية الآن</span><span class="i18n-en">Start your CV form now</span>
+      </button>
     </div>
   </div>
 </section>
@@ -1073,6 +1243,187 @@
     </div>
   </div>
 </footer>
+
+<!-- ================= SERVICE DETAIL MODAL (generic) ================= -->
+<div class="svc-overlay" id="svcModal" role="dialog" aria-modal="true" aria-labelledby="svcModalTitle">
+  <div class="svc-sheet">
+    <button type="button" class="svc-close" id="svcModalClose" aria-label="Close">×</button>
+    <h3 id="svcModalTitle"></h3>
+    <p class="svc-desc" id="svcModalDesc"></p>
+    <div class="svc-meta" id="svcModalMeta"></div>
+    <div id="svcModalConsultWrap" style="display:none;">
+      <textarea class="svc-textarea" id="svcModalConsultText"></textarea>
+    </div>
+    <div class="svc-actions">
+      <a href="#" target="_blank" rel="noopener" class="btn btn-primary" id="svcModalWaBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.26-.29.58-.36.77-.36h.55c.18 0 .42-.03.65.5.24.57.81 1.98.88 2.12.07.15.11.32.02.51-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.28-.12.55.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.87-1.06.18-.28.36-.23.6-.14.24.09 1.54.73 1.8.86.28.14.46.2.53.32.07.12.07.68-.17 1.36z"/></svg>
+        <span id="svcModalWaLabelAr" class="i18n-ar">تواصل عبر واتساب</span><span id="svcModalWaLabelEn" class="i18n-en">Message on WhatsApp</span>
+      </a>
+    </div>
+    <p class="svc-note" id="svcModalNote"></p>
+  </div>
+</div>
+
+<!-- ================= INTERVIEW COACHING BOOKING MODAL ================= -->
+<div class="svc-overlay" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+  <div class="svc-sheet">
+    <button type="button" class="svc-close" id="bookModalClose" aria-label="Close">×</button>
+    <h3 id="bookModalTitle"></h3>
+    <p class="svc-desc">
+      <span class="i18n-ar">اختر التاريخ والوقت وعدد الساعات، وشوف التكلفة التقديرية مباشرة. كل الأوقات المتاحة من الساعة ٦ إلى ١٠ مساءً.</span>
+      <span class="i18n-en">Pick a date, start time, and number of hours to see the estimated cost instantly. All available slots are between 6 PM and 10 PM.</span>
+    </p>
+    <div class="book-grid">
+      <div class="book-field">
+        <label><span class="i18n-ar">التاريخ</span><span class="i18n-en">Date</span></label>
+        <input type="date" id="bookDate">
+      </div>
+      <div class="book-field">
+        <label><span class="i18n-ar">وقت البدء</span><span class="i18n-en">Start time</span></label>
+        <select id="bookTime">
+          <option value="18:00">٦:٠٠ م / 6:00 PM</option>
+          <option value="18:30">٦:٣٠ م / 6:30 PM</option>
+          <option value="19:00">٧:٠٠ م / 7:00 PM</option>
+          <option value="19:30">٧:٣٠ م / 7:30 PM</option>
+          <option value="20:00">٨:٠٠ م / 8:00 PM</option>
+          <option value="20:30">٨:٣٠ م / 8:30 PM</option>
+          <option value="21:00">٩:٠٠ م / 9:00 PM</option>
+          <option value="21:30">٩:٣٠ م / 9:30 PM</option>
+        </select>
+      </div>
+    </div>
+    <div class="book-field" style="margin-bottom:18px;">
+      <label><span class="i18n-ar">عدد الساعات</span><span class="i18n-en">Number of hours</span></label>
+      <div class="book-hours-stepper">
+        <button type="button" id="bookHoursMinus" aria-label="minus">−</button>
+        <span id="bookHoursVal">1</span>
+        <button type="button" id="bookHoursPlus" aria-label="plus">+</button>
+      </div>
+    </div>
+    <div class="book-warn" id="bookWarn">
+      <span class="i18n-ar">هذا الاختيار يتجاوز الساعة ١٠ مساءً. اختر وقت بدء أبكر أو عدد ساعات أقل.</span>
+      <span class="i18n-en">This selection goes past 10 PM. Pick an earlier start time or fewer hours.</span>
+    </div>
+    <div class="book-total">
+      <span class="k"><span class="i18n-ar">التكلفة التقديرية</span><span class="i18n-en">Estimated cost</span></span>
+      <span class="v" id="bookTotalVal">— <span class="i18n-ar">د.ب</span><span class="i18n-en">BHD</span></span>
+    </div>
+    <div class="svc-actions">
+      <a href="#" target="_blank" rel="noopener" class="btn btn-primary" id="bookWaBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.26-.29.58-.36.77-.36h.55c.18 0 .42-.03.65.5.24.57.81 1.98.88 2.12.07.15.11.32.02.51-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.28-.12.55.16.28.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.21 1.37.28.14.44.12.6-.07.16-.19.68-.79.87-1.06.18-.28.36-.23.6-.14.24.09 1.54.73 1.8.86.28.14.46.2.53.32.07.12.07.68-.17 1.36z"/></svg>
+        <span class="i18n-ar">تأكيد الحجز عبر واتساب</span><span class="i18n-en">Confirm booking on WhatsApp</span>
+      </a>
+    </div>
+    <p class="svc-note">
+      <span class="i18n-ar">السعر يشمل الساعة الأولى، وكل ساعة إضافية بعدها بـ 2 د.ب فقط · خصم 20% للشخصين · خصومات خاصة للمجموعات (اسألنا عبر واتساب).</span>
+      <span class="i18n-en">Price includes the first hour; every extra hour after that is just 2 BHD · 20% off for two people · special group discounts (ask us on WhatsApp).</span>
+    </p>
+  </div>
+</div>
+
+<!-- ================= CV BUILDER FORM MODAL ================= -->
+<div class="svc-overlay" id="cvModal" role="dialog" aria-modal="true" aria-labelledby="cvModalTitle">
+  <div class="svc-sheet wide">
+    <button type="button" class="svc-close" id="cvModalClose" aria-label="Close">×</button>
+    <h3 id="cvModalTitle"><span class="i18n-ar">نموذج طلب السيرة الذاتية</span><span class="i18n-en">CV Request Form</span></h3>
+    <p class="svc-desc">
+      <span class="i18n-ar">يرجى منكم ملئ المتطلبات الأساسية المذكورة بشكل واضح وكامل. عند الإرسال يفتح واتساب برسالة جاهزة تحتوي كل بياناتك.</span>
+      <span class="i18n-en">Please fill in the requirements below clearly and completely. Submitting opens WhatsApp with a ready-made message containing all your details.</span>
+    </p>
+    <form id="cvForm">
+
+      <div class="cvform-section">
+        <h4><span class="i18n-ar">المعلومات الأساسية</span><span class="i18n-en">Basic Information</span></h4>
+        <div class="cvform-grid">
+          <div class="cvform-field">
+            <label><span class="i18n-ar">الاسم <span class="req">*</span> <span class="opt i18n-ar">(الاسم الثنائي)</span></span><span class="i18n-en">Name <span class="req">*</span> <span class="opt i18n-en">(first &amp; last name)</span></span></label>
+            <input type="text" id="cvName" required>
+          </div>
+          <div class="cvform-field">
+            <label><span class="i18n-ar">الرقم الشخصي <span class="req">*</span></span><span class="i18n-en">Personal / CPR number <span class="req">*</span></span></label>
+            <input type="text" id="cvCpr" required>
+          </div>
+          <div class="cvform-field">
+            <label><span class="i18n-ar">رقم الهاتف <span class="req">*</span></span><span class="i18n-en">Phone number <span class="req">*</span></span></label>
+            <input type="tel" id="cvPhone" required>
+          </div>
+          <div class="cvform-field">
+            <label><span class="i18n-ar">البريد الإلكتروني <span class="req">*</span></span><span class="i18n-en">Email <span class="req">*</span></span></label>
+            <input type="email" id="cvEmail" required>
+          </div>
+          <div class="cvform-field full">
+            <label><span class="i18n-ar">حساب LinkedIn <span class="opt i18n-ar">(إن وجد)</span></span><span class="i18n-en">LinkedIn profile <span class="opt i18n-en">(if any)</span></span></label>
+            <input type="text" id="cvLinkedin">
+          </div>
+          <div class="cvform-field full">
+            <label><span class="i18n-ar">صورة شخصية حديثة وواضحة <span class="opt i18n-ar">(بابتسامة خفيفة)</span></span><span class="i18n-en">Recent, clear personal photo <span class="opt i18n-en">(slight smile)</span></span></label>
+            <div class="cvform-photo">
+              <input type="file" id="cvPhoto" accept="image/*">
+              <div class="cvform-hint">
+                <span class="i18n-ar">لا يمكن قبول صورة غير رسمية أو مصورة بالهاتف بجودة ضعيفة. ملاحظة: واتساب لا يسمح بإرفاق الصورة تلقائياً من الموقع — بعد إرسال النموذج، أرفق هذه الصورة يدوياً كرسالة داخل محادثة واتساب.</span>
+                <span class="i18n-en">Casual or low-quality phone photos can't be accepted. Note: WhatsApp doesn't allow the site to attach the photo automatically — after submitting, please attach this photo yourself as a message inside the WhatsApp chat.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cvform-section">
+        <h4><span class="i18n-ar">الخبرة الأكاديمية</span><span class="i18n-en">Academic Background</span></h4>
+        <div class="cvform-grid">
+          <div class="cvform-field"><label><span class="i18n-ar">اسم المدرسة</span><span class="i18n-en">School name</span></label><input type="text" id="cvSchoolName"></div>
+          <div class="cvform-field"><label><span class="i18n-ar">التخصص</span><span class="i18n-en">Major / track</span></label><input type="text" id="cvSchoolMajor"></div>
+          <div class="cvform-field"><label><span class="i18n-ar">سنة التخرج</span><span class="i18n-en">Graduation year</span></label><input type="text" inputmode="numeric" id="cvSchoolYear"></div>
+          <div class="cvform-field"><label><span class="i18n-ar">اسم الجامعة</span><span class="i18n-en">University name</span></label><input type="text" id="cvUniName"></div>
+          <div class="cvform-field"><label><span class="i18n-ar">التخصص</span><span class="i18n-en">Major</span></label><input type="text" id="cvUniMajor"></div>
+          <div class="cvform-field"><label><span class="i18n-ar">سنة التخرج</span><span class="i18n-en">Graduation year</span></label><input type="text" inputmode="numeric" id="cvUniYear"></div>
+          <div class="cvform-field full"><label><span class="i18n-ar">المعدل <span class="opt i18n-ar">(اذكره إذا كان عالياً)</span></span><span class="i18n-en">GPA <span class="opt i18n-en">(only if it's high)</span></span></label><input type="text" id="cvUniGpa"></div>
+        </div>
+      </div>
+
+      <div class="cvform-section">
+        <h4><span class="i18n-ar">الخبرة العملية</span><span class="i18n-en">Work Experience</span></h4>
+        <div id="cvWorkList"></div>
+        <button type="button" class="cvform-add" id="cvAddWork">+ <span class="i18n-ar">أضف خبرة عملية أخرى</span><span class="i18n-en">Add another job</span></button>
+      </div>
+
+      <div class="cvform-section">
+        <h4><span class="i18n-ar">الأعمال التطوعية</span><span class="i18n-en">Volunteer Work</span></h4>
+        <div id="cvVolList"></div>
+        <button type="button" class="cvform-add" id="cvAddVol">+ <span class="i18n-ar">أضف عمل تطوعي آخر</span><span class="i18n-en">Add another volunteer role</span></button>
+      </div>
+
+      <div class="cvform-section">
+        <h4><span class="i18n-ar">اللغات</span><span class="i18n-en">Languages</span></h4>
+        <div id="cvLangList"></div>
+        <button type="button" class="cvform-add" id="cvAddLang">+ <span class="i18n-ar">أضف لغة أخرى</span><span class="i18n-en">Add another language</span></button>
+      </div>
+
+      <div class="cvform-section">
+        <h4><span class="i18n-ar">الشهادات الاحترافية</span><span class="i18n-en">Professional Certificates</span></h4>
+        <div id="cvCertList"></div>
+        <button type="button" class="cvform-add" id="cvAddCert">+ <span class="i18n-ar">أضف شهادة أخرى</span><span class="i18n-en">Add another certificate</span></button>
+      </div>
+
+      <div class="cvform-section">
+        <h4><span class="i18n-ar">المهارات</span><span class="i18n-en">Skills</span></h4>
+        <div class="cvform-field full">
+          <label><span class="i18n-ar">المهارات الشخصية</span><span class="i18n-en">Personal skills</span></label>
+          <textarea id="cvSoftSkills" rows="2" placeholder="القيادة، إدارة الوقت، العمل الجماعي..."></textarea>
+        </div>
+        <div class="cvform-field full">
+          <label><span class="i18n-ar">المهارات الاحترافية المهنية</span><span class="i18n-en">Professional / technical skills</span></label>
+          <textarea id="cvProSkills" rows="2" placeholder="Excel، إدارة المشاريع، SAP..."></textarea>
+        </div>
+      </div>
+
+      <a href="#" target="_blank" rel="noopener" class="btn btn-gold" id="cvSubmitBtn" style="width:100%; justify-content:center;">
+        <span class="i18n-ar">إرسال النموذج عبر واتساب</span><span class="i18n-en">Send form via WhatsApp</span>
+      </a>
+      <div class="cvform-status" id="cvStatus"></div>
+    </form>
+  </div>
+</div>
 
 <script>
   try{ document.getElementById('year').textContent = new Date().getFullYear(); }catch(e){}
@@ -1205,6 +1556,425 @@
   });
 
   setLang('ar');
+
+  // ================= Service interaction system (modals, booking, consult, CV form) =================
+  try{
+    const WA_NUMBER = '97332246900';
+    function currentLang(){ return document.documentElement.classList.contains('lang-en') ? 'en' : 'ar'; }
+    function waUrl(text){ return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text); }
+    function openWA(ar, en){ window.open(waUrl(currentLang()==='en' ? en : ar), '_blank', 'noopener'); }
+    function textOf(root, sel){ const n = root.querySelector(sel); return n ? n.textContent.trim() : ''; }
+
+    // ---------- reusable overlay open/close ----------
+    function bindOverlay(overlayId, closeId){
+      const overlay = document.getElementById(overlayId);
+      const closeBtn = document.getElementById(closeId);
+      function close(){ overlay.classList.remove('open'); document.body.style.overflow = ''; }
+      function open(){ overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      closeBtn.addEventListener('click', close);
+      overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
+      document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && overlay.classList.contains('open')) close(); });
+      return { open, close };
+    }
+    const svcModalCtl = bindOverlay('svcModal', 'svcModalClose');
+    const bookModalCtl = bindOverlay('bookModal', 'bookModalClose');
+    const cvModalCtl = bindOverlay('cvModal', 'cvModalClose');
+
+    // ---------- description templates for corporate price-table rows ----------
+    const CAT_DESC = {
+      hr: { ar: t => `نجهز لك "${t}" باحترافية ودقة، متوافقة مع قانون العمل البحريني وجاهزة للاستخدام الفوري.`,
+            en: t => `We prepare your "${t}" professionally and accurately, fully aligned with Bahrain's labour law and ready to use right away.` },
+      lmra: { ar: t => `ننجز لك إجراء "${t}" لدى هيئة تنظيم سوق العمل (LMRA) بسرعة ودقة، ونتابعه معك خطوة بخطوة.`,
+              en: t => `We handle your "${t}" procedure with the Labour Market Regulatory Authority (LMRA) quickly and accurately, following up with you every step of the way.` },
+      sio: { ar: t => `ننجز لك إجراء "${t}" لدى هيئة التأمينات الاجتماعية (SIO) بكل دقة، ونتأكد من اكتماله بشكل صحيح.`,
+             en: t => `We complete your "${t}" procedure with the Social Insurance Organisation (SIO) accurately and make sure it's done right.` },
+      mol: { ar: t => `ننجز لك إجراء "${t}" لدى وزارة العمل بسرعة واحترافية، وفق آخر الأنظمة المعتمدة.`,
+             en: t => `We handle your "${t}" procedure with the Ministry of Labour promptly and professionally, per the latest regulations.` },
+      tamkeen: { ar: t => `نساعدك في إنجاز "${t}" عبر برنامج تمكين بكل سلاسة، من التجهيز إلى التقديم.`,
+                 en: t => `We help you complete your "${t}" through the Tamkeen programme smoothly, from preparation to submission.` }
+    };
+
+    // ---------- delivery-time estimate (price-based; two items pinned to the owner's own examples) ----------
+    function deliveryFor(rowTitleAr, parentTitleAr, priceNum){
+      if(parentTitleAr && parentTitleAr.indexOf('السيرة الذاتية') !== -1) return {ar:'٨ إلى ٤٨ ساعة', en:'8 to 48 hours'};
+      if(rowTitleAr === 'إعداد عقد عمل') return {ar:'يومين إلى 4 أيام', en:'2 to 4 days'};
+      if(rowTitleAr === 'لائحة الجزاءات التأديبية') return {ar:'يومين إلى 5 أيام', en:'2 to 5 days'};
+      if(priceNum === null || isNaN(priceNum)) return null;
+      if(priceNum <= 7) return {ar:'8 إلى 24 ساعة', en:'8 to 24 hours'};
+      if(priceNum <= 15) return {ar:'يوم إلى يومين', en:'1 to 2 days'};
+      return {ar:'يومين إلى 5 أيام', en:'2 to 5 days'};
+    }
+
+    function parsePriceNum(b){
+      if(!b || !b.childNodes[0]) return null;
+      const n = parseFloat(b.childNodes[0].textContent.trim());
+      return isNaN(n) ? null : n;
+    }
+
+    // ---------- read a clicked element into a normalized info object ----------
+    function getSvcInfo(el){
+      const info = { titleHTML:'', titleAr:'', titleEn:'', descHTML:'', priceHTML:'', priceAr:'', priceEn:'', delivery:null };
+      if(el.classList.contains('price-row')){
+        const label = el.querySelector('.label');
+        info.titleHTML = label.innerHTML;
+        info.titleAr = textOf(label, '.i18n-ar');
+        info.titleEn = textOf(label, '.i18n-en');
+        const b = el.querySelector('b');
+        let priceNum = null;
+        if(b){
+          info.priceHTML = b.innerHTML;
+          priceNum = parsePriceNum(b);
+          if(priceNum !== null){ info.priceAr = priceNum + ' د.ب'; info.priceEn = priceNum + ' BHD'; }
+        }
+        const parentCard = el.closest('.service-card');
+        let parentTitleAr = '';
+        if(parentCard){
+          const d = parentCard.querySelector('.desc');
+          if(d) info.descHTML = d.innerHTML;
+          parentTitleAr = textOf(parentCard, 'h3 .i18n-ar');
+        } else {
+          const panel = el.closest('.price-table-panel');
+          const cat = panel ? panel.dataset.pricePanel : 'hr';
+          const tpl = CAT_DESC[cat] || CAT_DESC.hr;
+          info.descHTML = '<span class="i18n-ar">' + tpl.ar(info.titleAr) + '</span><span class="i18n-en">' + tpl.en(info.titleEn) + '</span>';
+        }
+        info.delivery = deliveryFor(info.titleAr, parentTitleAr, priceNum);
+      } else if(el.classList.contains('service-card')){
+        const h3 = el.querySelector('h3');
+        info.titleHTML = h3.innerHTML;
+        info.titleAr = textOf(h3, '.i18n-ar');
+        info.titleEn = textOf(h3, '.i18n-en');
+        const d = el.querySelector('.desc');
+        if(d) info.descHTML = d.innerHTML;
+      } else if(el.classList.contains('corp-card')){
+        const h3 = el.querySelector('h3');
+        info.titleHTML = h3.innerHTML;
+        info.titleAr = textOf(h3, '.i18n-ar');
+        info.titleEn = textOf(h3, '.i18n-en');
+        const p = el.querySelector('p');
+        if(p) info.descHTML = p.innerHTML;
+      }
+      return info;
+    }
+
+    // ---------- generic service modal ----------
+    const svcTitleEl = document.getElementById('svcModalTitle');
+    const svcDescEl = document.getElementById('svcModalDesc');
+    const svcMetaEl = document.getElementById('svcModalMeta');
+    const svcConsultWrap = document.getElementById('svcModalConsultWrap');
+    const svcConsultText = document.getElementById('svcModalConsultText');
+    const svcWaBtn = document.getElementById('svcModalWaBtn');
+    const svcNoteEl = document.getElementById('svcModalNote');
+    let svcState = { titleAr:'', titleEn:'', priceAr:'', priceEn:'', isConsult:false };
+
+    function refreshConsultPlaceholder(){
+      if(svcConsultWrap.style.display === 'block'){
+        svcConsultText.placeholder = currentLang() === 'en' ? 'Type your full question here…' : 'اكتب استفسارك كاملاً هنا...';
+      }
+    }
+
+    function openSvcModal(el, isConsult){
+      const info = getSvcInfo(el);
+      svcTitleEl.innerHTML = info.titleHTML;
+      svcDescEl.innerHTML = info.descHTML || '';
+      svcMetaEl.innerHTML = '';
+      if(info.priceHTML){
+        const item = document.createElement('div');
+        item.className = 'svc-meta-item';
+        item.innerHTML = '<span class="k"><span class="i18n-ar">السعر</span><span class="i18n-en">Price</span></span><span class="v">' + info.priceHTML + '</span>';
+        svcMetaEl.appendChild(item);
+      }
+      if(info.delivery){
+        const item = document.createElement('div');
+        item.className = 'svc-meta-item';
+        item.innerHTML = '<span class="k"><span class="i18n-ar">مدة التسليم</span><span class="i18n-en">Delivery time</span></span><span class="v"><span class="i18n-ar">' + info.delivery.ar + '</span><span class="i18n-en">' + info.delivery.en + '</span></span>';
+        svcMetaEl.appendChild(item);
+      }
+      svcNoteEl.classList.toggle('show', !info.priceHTML);
+      svcNoteEl.innerHTML = info.priceHTML ? '' : '<span class="i18n-ar">سيتم تحديد السعر ومدة التسليم بعد فهم تفاصيل طلبك.</span><span class="i18n-en">Price and delivery time will be confirmed after we understand your request.</span>';
+      svcConsultWrap.style.display = isConsult ? 'block' : 'none';
+      if(isConsult) svcConsultText.value = '';
+      refreshConsultPlaceholder();
+      svcState = { titleAr: info.titleAr, titleEn: info.titleEn, priceAr: info.priceAr, priceEn: info.priceEn, isConsult };
+      refreshSvcHref();
+      svcModalCtl.open();
+    }
+
+    function refreshSvcHref(){
+      const priceArTxt = svcState.priceAr ? ' (' + svcState.priceAr + ')' : '';
+      const priceEnTxt = svcState.priceEn ? ' (' + svcState.priceEn + ')' : '';
+      let ar = 'مرحباً، أحتاج خدمة: ' + svcState.titleAr + priceArTxt + '.';
+      let en = 'Hello, I need the following service: ' + svcState.titleEn + priceEnTxt + '.';
+      if(svcState.isConsult){
+        const q = svcConsultText.value.trim();
+        if(q){ ar += '\n\nتفاصيل الاستفسار:\n' + q; en += '\n\nInquiry details:\n' + q; }
+      }
+      svcWaBtn.href = waUrl(currentLang() === 'en' ? en : ar);
+    }
+    svcConsultText.addEventListener('input', refreshSvcHref);
+    svcWaBtn.addEventListener('click', refreshSvcHref);
+
+    document.querySelectorAll('.svc-row').forEach(el => el.addEventListener('click', () => openSvcModal(el, false)));
+    document.querySelectorAll('.svc-consult').forEach(el => el.addEventListener('click', () => openSvcModal(el, true)));
+
+    // ---------- package CTA buttons ----------
+    function refreshPkgHrefs(){
+      document.querySelectorAll('.svc-pkg-cta').forEach(a => {
+        a.href = waUrl(currentLang() === 'en' ? a.dataset.waEn : a.dataset.waAr);
+      });
+    }
+    refreshPkgHrefs();
+
+    // ---------- interview coaching booking calculator ----------
+    const EXTRA_HOUR_RATE = 2;
+    let bookState = { titleAr:'', titleEn:'', base:0 };
+    let bookHours = 1;
+    const bookHoursValEl = document.getElementById('bookHoursVal');
+    const bookDateEl = document.getElementById('bookDate');
+    const bookTimeEl = document.getElementById('bookTime');
+    const bookTotalValEl = document.getElementById('bookTotalVal');
+    const bookWarnEl = document.getElementById('bookWarn');
+    const bookWaBtn = document.getElementById('bookWaBtn');
+
+    function formatTime12(hhmm, lang){
+      const parts = hhmm.split(':');
+      const h = parseInt(parts[0], 10), m = parts[1];
+      const period = lang === 'ar' ? (h < 12 ? 'ص' : 'م') : (h < 12 ? 'AM' : 'PM');
+      let h12 = h % 12; if(h12 === 0) h12 = 12;
+      return h12 + ':' + m + ' ' + period;
+    }
+    function formatDate(dateVal, lang){
+      if(!dateVal) return '';
+      const d = new Date(dateVal + 'T00:00:00');
+      try{ return d.toLocaleDateString(lang === 'ar' ? 'ar-BH' : 'en-GB', {year:'numeric', month:'long', day:'numeric'}); }
+      catch(e){ return dateVal; }
+    }
+
+    function recalcBooking(){
+      const total = bookState.base + Math.max(0, bookHours - 1) * EXTRA_HOUR_RATE;
+      const totalTxt = (total % 1 === 0) ? String(total) : total.toFixed(1);
+      if(bookTotalValEl.childNodes[0]) bookTotalValEl.childNodes[0].textContent = totalTxt + ' ';
+      const timeVal = bookTimeEl.value;
+      const tp = timeVal.split(':');
+      const endMinutes = parseInt(tp[0],10) * 60 + parseInt(tp[1],10) + bookHours * 60;
+      const overLimit = endMinutes > (22 * 60);
+      bookWarnEl.classList.toggle('show', overLimit);
+      bookWaBtn.style.pointerEvents = overLimit ? 'none' : '';
+      bookWaBtn.style.opacity = overLimit ? '.5' : '';
+      if(!overLimit && bookDateEl.value){
+        const dateAr = formatDate(bookDateEl.value, 'ar'), dateEn = formatDate(bookDateEl.value, 'en');
+        const timeAr = formatTime12(timeVal, 'ar'), timeEn = formatTime12(timeVal, 'en');
+        const ar = `مرحباً، أحتاج حجز جلسة "${bookState.titleAr}" بتاريخ ${dateAr} الساعة ${timeAr}، لمدة ${bookHours} ساعة. التكلفة التقديرية: ${totalTxt} د.ب.`;
+        const en = `Hello, I'd like to book a "${bookState.titleEn}" session on ${dateEn} at ${timeEn}, for ${bookHours} hour(s). Estimated cost: ${totalTxt} BHD.`;
+        bookWaBtn.href = waUrl(currentLang() === 'en' ? en : ar);
+      }
+    }
+
+    document.getElementById('bookHoursPlus').addEventListener('click', () => { if(bookHours < 8){ bookHours++; bookHoursValEl.textContent = bookHours; recalcBooking(); } });
+    document.getElementById('bookHoursMinus').addEventListener('click', () => { if(bookHours > 1){ bookHours--; bookHoursValEl.textContent = bookHours; recalcBooking(); } });
+    bookTimeEl.addEventListener('change', recalcBooking);
+    bookDateEl.addEventListener('change', recalcBooking);
+
+    document.querySelectorAll('.svc-booking').forEach(el => {
+      el.addEventListener('click', () => {
+        const label = el.querySelector('.label');
+        const b = el.querySelector('b');
+        bookState.titleAr = textOf(label, '.i18n-ar');
+        bookState.titleEn = textOf(label, '.i18n-en');
+        bookState.base = parsePriceNum(b) || 0;
+        document.getElementById('bookModalTitle').innerHTML = '<span class="i18n-ar">حجز: </span><span class="i18n-en">Book: </span>' + label.innerHTML;
+        bookHours = 1; bookHoursValEl.textContent = '1';
+        const todayISO = new Date().toISOString().slice(0,10);
+        bookDateEl.min = todayISO;
+        if(!bookDateEl.value) bookDateEl.value = todayISO;
+        bookTimeEl.value = '18:00';
+        recalcBooking();
+        bookModalCtl.open();
+      });
+    });
+
+    bookWaBtn.addEventListener('click', (e) => {
+      if(!bookDateEl.value){ e.preventDefault(); bookDateEl.focus(); if(bookDateEl.reportValidity) bookDateEl.reportValidity(); return; }
+      const tp = bookTimeEl.value.split(':');
+      const endMinutes = parseInt(tp[0],10) * 60 + parseInt(tp[1],10) + bookHours * 60;
+      if(endMinutes > 22 * 60){ e.preventDefault(); return; }
+      recalcBooking(); // make sure href reflects the exact state being confirmed
+    });
+
+    // ---------- CV builder form ----------
+    function addRepeatItem(containerId, fieldsHTML){
+      const container = document.getElementById(containerId);
+      const item = document.createElement('div');
+      item.className = 'cvform-repeat-item';
+      item.innerHTML = '<button type="button" class="cvform-remove">✕ <span class="i18n-ar">حذف</span><span class="i18n-en">Remove</span></button><div class="cvform-grid">' + fieldsHTML + '</div>';
+      item.querySelector('.cvform-remove').addEventListener('click', () => item.remove());
+      container.appendChild(item);
+    }
+    const WORK_FIELDS = '<div class="cvform-field"><label><span class="i18n-ar">اسم الشركة</span><span class="i18n-en">Company name</span></label><input type="text" data-f="company"></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">المسمى الوظيفي</span><span class="i18n-en">Job title</span></label><input type="text" data-f="title"></div>'
+      + '<div class="cvform-field full"><label><span class="i18n-ar">المهام الوظيفية</span><span class="i18n-en">Job duties</span></label><textarea data-f="duties" rows="2"></textarea></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">تاريخ الانضمام</span><span class="i18n-en">Start date</span></label><input type="month" data-f="start"></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">تاريخ الاستقالة</span><span class="i18n-en">End date</span></label><input type="month" data-f="end"></div>';
+    const VOL_FIELDS = '<div class="cvform-field"><label><span class="i18n-ar">اسم المؤسسة</span><span class="i18n-en">Organisation name</span></label><input type="text" data-f="org"></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">المسمى التطوعي</span><span class="i18n-en">Volunteer role</span></label><input type="text" data-f="role"></div>'
+      + '<div class="cvform-field full"><label><span class="i18n-ar">المهام التطوعية</span><span class="i18n-en">Volunteer duties</span></label><textarea data-f="duties" rows="2"></textarea></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">تاريخ الانضمام</span><span class="i18n-en">Start date</span></label><input type="month" data-f="start"></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">تاريخ انتهاء التطوع</span><span class="i18n-en">End date</span></label><input type="month" data-f="end"></div>';
+    const LANG_FIELDS = '<div class="cvform-field"><label><span class="i18n-ar">اللغة</span><span class="i18n-en">Language</span></label><input type="text" data-f="lang"></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">المستوى</span><span class="i18n-en">Level</span></label><select data-f="level"><option value="">—</option><option>أساسي / Basic</option><option>متوسط / Intermediate</option><option>متقدم / Advanced</option><option>لغة أم / Native</option></select></div>';
+    const CERT_FIELDS = '<div class="cvform-field"><label><span class="i18n-ar">اسم الشهادة</span><span class="i18n-en">Certificate name</span></label><input type="text" data-f="name"></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">الجهة المانحة</span><span class="i18n-en">Issuing organisation</span></label><input type="text" data-f="org"></div>'
+      + '<div class="cvform-field"><label><span class="i18n-ar">تاريخ الإصدار</span><span class="i18n-en">Issue date</span></label><input type="month" data-f="date"></div>';
+
+    document.getElementById('cvAddWork').addEventListener('click', () => addRepeatItem('cvWorkList', WORK_FIELDS));
+    document.getElementById('cvAddVol').addEventListener('click', () => addRepeatItem('cvVolList', VOL_FIELDS));
+    document.getElementById('cvAddLang').addEventListener('click', () => addRepeatItem('cvLangList', LANG_FIELDS));
+    document.getElementById('cvAddCert').addEventListener('click', () => addRepeatItem('cvCertList', CERT_FIELDS));
+    addRepeatItem('cvWorkList', WORK_FIELDS);
+    addRepeatItem('cvVolList', VOL_FIELDS);
+    addRepeatItem('cvLangList', LANG_FIELDS);
+    addRepeatItem('cvCertList', CERT_FIELDS);
+
+    function openCvModal(){ cvModalCtl.open(); }
+    ['openCvFormStep','openCvFormBtn','openCvFormCardBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('click', openCvModal);
+    });
+
+    function fmtMonth(v){
+      if(!v) return '';
+      const p = v.split('-');
+      return p.length === 2 ? (p[1] + '/' + p[0]) : v;
+    }
+    function collectRepeat(containerId){
+      return Array.from(document.querySelectorAll('#' + containerId + ' .cvform-repeat-item')).map(item => {
+        const obj = {};
+        item.querySelectorAll('[data-f]').forEach(f => { obj[f.dataset.f] = f.value.trim(); });
+        return obj;
+      }).filter(obj => Object.keys(obj).some(k => obj[k]));
+    }
+
+    const cvSubmitBtn = document.getElementById('cvSubmitBtn');
+    document.getElementById('cvForm').addEventListener('submit', function(e){ e.preventDefault(); cvSubmitBtn.click(); });
+    cvSubmitBtn.addEventListener('click', function(e){
+      const status = document.getElementById('cvStatus');
+      const name = document.getElementById('cvName').value.trim();
+      const cpr = document.getElementById('cvCpr').value.trim();
+      const phone = document.getElementById('cvPhone').value.trim();
+      const email = document.getElementById('cvEmail').value.trim();
+      if(!name || !cpr || !phone || !email){
+        e.preventDefault();
+        status.className = 'cvform-status show err';
+        status.innerHTML = '<span class="i18n-ar">يرجى تعبئة الحقول الأساسية: الاسم، الرقم الشخصي، الهاتف، والبريد الإلكتروني.</span><span class="i18n-en">Please fill in the required fields: name, CPR number, phone, and email.</span>';
+        status.scrollIntoView({behavior:'smooth', block:'center'});
+        return;
+      }
+      const lang = currentLang();
+      const lines = [];
+      function push(labelAr, labelEn, val){ if(val) lines.push((lang === 'ar' ? labelAr : labelEn) + ': ' + val); }
+
+      lines.push(lang === 'ar' ? 'نموذج طلب سيرة ذاتية' : 'CV Request Form');
+      lines.push('');
+      push('الاسم','Name', name);
+      push('الرقم الشخصي','Personal/CPR number', cpr);
+      push('رقم الهاتف','Phone', phone);
+      push('البريد الإلكتروني','Email', email);
+      push('LinkedIn','LinkedIn', document.getElementById('cvLinkedin').value.trim());
+
+      const schoolName = document.getElementById('cvSchoolName').value.trim();
+      const schoolMajor = document.getElementById('cvSchoolMajor').value.trim();
+      const schoolYear = document.getElementById('cvSchoolYear').value.trim();
+      const uniName = document.getElementById('cvUniName').value.trim();
+      const uniMajor = document.getElementById('cvUniMajor').value.trim();
+      const uniYear = document.getElementById('cvUniYear').value.trim();
+      const uniGpa = document.getElementById('cvUniGpa').value.trim();
+      if(schoolName || schoolMajor || schoolYear || uniName || uniMajor || uniYear || uniGpa){
+        lines.push(''); lines.push(lang === 'ar' ? 'الخبرة الأكاديمية' : 'Academic Background');
+        push('اسم المدرسة','School', schoolName);
+        push('التخصص','Major', schoolMajor);
+        push('سنة التخرج','Graduation year', schoolYear);
+        push('اسم الجامعة','University', uniName);
+        push('التخصص','Major', uniMajor);
+        push('سنة التخرج','Graduation year', uniYear);
+        push('المعدل','GPA', uniGpa);
+      }
+
+      const work = collectRepeat('cvWorkList');
+      if(work.length){
+        lines.push(''); lines.push(lang === 'ar' ? 'الخبرة العملية' : 'Work Experience');
+        work.forEach((w, i) => {
+          lines.push((lang === 'ar' ? 'وظيفة ' : 'Job ') + (i + 1) + ':');
+          push('  الشركة','  Company', w.company);
+          push('  المسمى الوظيفي','  Title', w.title);
+          push('  المهام','  Duties', w.duties);
+          push('  من','  From', fmtMonth(w.start));
+          push('  إلى','  To', fmtMonth(w.end));
+        });
+      }
+
+      const vol = collectRepeat('cvVolList');
+      if(vol.length){
+        lines.push(''); lines.push(lang === 'ar' ? 'الأعمال التطوعية' : 'Volunteer Work');
+        vol.forEach((w, i) => {
+          lines.push((lang === 'ar' ? 'عمل تطوعي ' : 'Role ') + (i + 1) + ':');
+          push('  المؤسسة','  Organisation', w.org);
+          push('  المسمى','  Role', w.role);
+          push('  المهام','  Duties', w.duties);
+          push('  من','  From', fmtMonth(w.start));
+          push('  إلى','  To', fmtMonth(w.end));
+        });
+      }
+
+      const langs = collectRepeat('cvLangList');
+      if(langs.length){
+        lines.push(''); lines.push(lang === 'ar' ? 'اللغات' : 'Languages');
+        langs.forEach(l => lines.push('- ' + [l.lang, l.level].filter(Boolean).join(' — ')));
+      }
+
+      const certs = collectRepeat('cvCertList');
+      if(certs.length){
+        lines.push(''); lines.push(lang === 'ar' ? 'الشهادات الاحترافية' : 'Professional Certificates');
+        certs.forEach((c, i) => {
+          lines.push((lang === 'ar' ? 'شهادة ' : 'Certificate ') + (i + 1) + ':');
+          push('  الاسم','  Name', c.name);
+          push('  الجهة المانحة','  Issuer', c.org);
+          push('  تاريخ الإصدار','  Date', fmtMonth(c.date));
+        });
+      }
+
+      const softSkills = document.getElementById('cvSoftSkills').value.trim();
+      const proSkills = document.getElementById('cvProSkills').value.trim();
+      if(softSkills || proSkills){
+        lines.push(''); lines.push(lang === 'ar' ? 'المهارات' : 'Skills');
+        push('المهارات الشخصية','Personal skills', softSkills);
+        push('المهارات الاحترافية المهنية','Professional skills', proSkills);
+      }
+
+      const photoInput = document.getElementById('cvPhoto');
+      const hasPhoto = photoInput.files && photoInput.files.length > 0;
+      lines.push('');
+      lines.push(hasPhoto
+        ? (lang === 'ar' ? '📎 سيتم إرفاق الصورة الشخصية في رسالة منفصلة بعد هذه الرسالة.' : '📎 The personal photo will be attached as a separate message right after this one.')
+        : (lang === 'ar' ? '⚠️ لم يتم إرفاق صورة شخصية بعد — يرجى إرسالها كرسالة منفصلة.' : '⚠️ No personal photo attached yet — please send it as a separate message.'));
+
+      const cvMsg = lines.join('\n');
+      cvSubmitBtn.href = waUrl(cvMsg);
+
+      status.className = 'cvform-status show ok';
+      status.innerHTML = hasPhoto
+        ? '<span class="i18n-ar">تم فتح واتساب برسالتك. لا تنسَ إرفاق الصورة الشخصية كرسالة ثانية.</span><span class="i18n-en">WhatsApp opened with your message. Don\'t forget to attach the personal photo as a second message.</span>'
+        : '<span class="i18n-ar">تم فتح واتساب برسالتك.</span><span class="i18n-en">WhatsApp opened with your message.</span>';
+      status.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+
+    // keep dynamic WhatsApp links/placeholders in the right language when the user switches language
+    langBtn.addEventListener('click', () => {
+      refreshConsultPlaceholder();
+      refreshPkgHrefs();
+      if(svcModalCtl && document.getElementById('svcModal').classList.contains('open')) refreshSvcHref();
+      if(document.getElementById('bookModal').classList.contains('open')) recalcBooking();
+    });
+  }catch(e){ /* interactive layer failed to init — static content above still works */ }
 </script>
 </body>
 </html>
