@@ -44,8 +44,8 @@
     --ink:#EDEAE2;
     --ink-2:#EDEAE2;
     --ink-soft:#9CA6AC;
-    --sage:#8FB495;
-    --sage-deep:#8FB495;
+    --sage:#9DC2A2;
+    --sage-deep:#7FA687;
     --sage-tint:rgba(126,158,130,.16);
     --sand:#14181D;
     --paper:#1E242B;
@@ -185,16 +185,30 @@
 
   @media(max-width:920px){
     nav.main-nav{
+      display:none;
       position:fixed; inset:70px 0 0 0; background:var(--paper);
       flex-direction:column; justify-content:flex-start; align-items:flex-start;
-      padding:32px 28px; gap:22px; transform:translateY(-12px);
-      opacity:0; pointer-events:none; transition:all .3s ease;
+      padding:32px 28px; gap:22px;
       border-top:1px solid var(--line);
+      z-index:150;
     }
-    nav.main-nav.open{opacity:1; pointer-events:auto; transform:translateY(0);}
+    nav.main-nav.open{display:flex; animation:navIn .25s ease;}
+    @keyframes navIn{from{opacity:0; transform:translateY(-12px);} to{opacity:1; transform:translateY(0);}}
+    /* backdrop-filter on header leaks into the fixed nav panel (a descendant) and makes its
+       background render as translucent instead of solid — turn it off on mobile, where the
+       panel needs to be fully opaque, and use a plain solid header background instead. */
+    header{backdrop-filter:none; background:var(--paper);}
+    html.dark-mode header{background:var(--paper);}
     nav.main-nav a{font-size:1.15rem;}
     .burger{display:block;}
     .header-actions .btn-primary span.hide-sm{display:none;}
+    #langBtnLabel{display:none;}
+    .lang-btn{padding:9px 12px;}
+  }
+  @media(max-width:420px){
+    .nav-wrap{padding-inline:16px;}
+    .header-actions{gap:6px;}
+    .brand{font-size:1.1rem; gap:6px;}
   }
 
   /* ---------- Hero ---------- */
@@ -255,12 +269,14 @@
 
   /* ---------- About / values ---------- */
   .about-intro{max-width:74ch; font-size:1.06rem; color:var(--ink-soft); margin-bottom:48px;}
-  .values-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
-  @media(max-width:880px){.values-grid{grid-template-columns:1fr;}}
+  .values-wrap{max-width:640px;}
+  .values-tabs{margin-bottom:0;}
+  .value-card-panel{display:none;}
+  .value-card-panel.active{display:block; animation:fadein .5s ease;}
   .value-card{
     background:var(--paper); border-radius:var(--radius); padding:32px 28px;
     box-shadow:var(--shadow-sm); border:1px solid var(--line);
-    position:relative; overflow:hidden;
+    position:relative; overflow:hidden; margin-top:24px;
   }
   .value-card::before{
     content:""; position:absolute; top:0; inset-inline-start:0; width:6px; height:100%;
@@ -387,8 +403,8 @@
     display:inline-block; font-size:.76rem; font-weight:600; padding:4px 12px;
     border-radius:999px; margin-bottom:14px;
   }
-  .insight-tag.rights{background:#e7edea; color:var(--sage-deep);}
-  .insight-tag.growth{background:#f2e6d0; color:var(--gold-deep);}
+  .insight-tag.rights{background:#e7edea; color:#4F6B54;}
+  .insight-tag.growth{background:#f2e6d0; color:#8F6526;}
   .insight-tag.employer{background:#e9e3f2; color:var(--purple);}
   .insight-card h3{font-family:var(--font-display); font-size:1.28rem; margin-bottom:10px;}
   .insight-card p{font-size:.93rem; color:var(--ink-soft); margin:0;}
@@ -505,8 +521,12 @@
   .svc-overlay.open{display:flex; align-items:flex-start; justify-content:center;}
   .svc-sheet{
     background:var(--paper); border-radius:var(--radius); max-width:560px; width:100%;
+    min-width:0; box-sizing:border-box;
     margin:auto; padding:34px 30px; position:relative; box-shadow:var(--shadow);
     animation:sheetIn .3s ease;
+  }
+  @media(max-width:480px){
+    .svc-sheet{padding:28px 20px;}
   }
   .svc-sheet.wide{max-width:760px;}
   @keyframes sheetIn{from{opacity:0; transform:translateY(18px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);}}
@@ -525,7 +545,7 @@
   .svc-meta-item .k{display:block; font-size:.78rem; color:var(--sage-deep); font-weight:600; margin-bottom:4px;}
   .svc-meta-item .v{font-family:'Inter',sans-serif; font-weight:700; font-size:1.05rem; color:var(--ink);}
   .svc-textarea{
-    width:100%; border:1px solid var(--line); border-radius:14px; padding:14px 16px;
+    width:100%; max-width:100%; min-width:0; border:1px solid var(--line); border-radius:14px; padding:14px 16px;
     font-family:inherit; font-size:.95rem; color:var(--ink); background:var(--input-bg);
     resize:vertical; min-height:110px; margin-bottom:18px;
   }
@@ -535,13 +555,14 @@
   .svc-note{font-size:.82rem; color:var(--ink-soft); opacity:.85; margin-top:14px;}
 
   /* ================= Booking calculator (interview coaching) ================= */
-  .book-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px;}
-  @media(max-width:480px){.book-grid{grid-template-columns:1fr;}}
-  .book-field{display:flex; flex-direction:column; gap:6px;}
+  .book-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; margin-bottom:18px;}
+  @media(max-width:480px){.book-grid{grid-template-columns:minmax(0,1fr);}}
+  .book-field{display:flex; flex-direction:column; gap:6px; min-width:0;}
   .book-field label{font-size:.82rem; font-weight:600; color:var(--ink-soft);}
   .book-field select, .book-field input{
     border:1px solid var(--line); border-radius:12px; padding:11px 14px;
     font-family:inherit; font-size:.95rem; background:var(--input-bg); color:var(--ink);
+    width:100%; min-width:0; max-width:100%;
   }
   .book-field select:focus, .book-field input:focus{outline:2px solid var(--sage-deep); outline-offset:1px;}
   .book-hours-stepper{display:flex; align-items:center; gap:10px;}
@@ -569,16 +590,17 @@
     font-family:var(--font-display); font-size:1.25rem; color:var(--sage-deep);
     margin-bottom:16px; padding-bottom:10px; border-bottom:1px dashed var(--line);
   }
-  .cvform-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-  @media(max-width:600px){.cvform-grid{grid-template-columns:1fr;}}
-  .cvform-field{display:flex; flex-direction:column; gap:6px; margin-bottom:14px;}
+  .cvform-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px;}
+  @media(max-width:600px){.cvform-grid{grid-template-columns:minmax(0,1fr);}}
+  .cvform-field{display:flex; flex-direction:column; gap:6px; margin-bottom:14px; min-width:0;}
   .cvform-field.full{grid-column:1/-1;}
   .cvform-field label{font-size:.85rem; font-weight:600; color:var(--ink);}
   .cvform-field label .req{color:var(--pink);}
   .cvform-field label .opt{color:var(--ink-soft); font-weight:400; font-size:.8em;}
   .cvform-field input, .cvform-field textarea, .cvform-field select{
     border:1px solid var(--line); border-radius:12px; padding:11px 14px;
-    font-family:inherit; font-size:.94rem; background:var(--input-bg); color:var(--ink); width:100%;
+    font-family:inherit; font-size:.94rem; background:var(--input-bg); color:var(--ink);
+    width:100%; min-width:0; max-width:100%;
   }
   .cvform-field input:focus, .cvform-field textarea:focus, .cvform-field select:focus{
     outline:2px solid var(--sage-deep); outline-offset:1px;
@@ -710,29 +732,36 @@
       <span class="i18n-en">Interviewer.BH is an educational and consulting platform founded by <strong>Ali Al Mutawa</strong>, an HR consultant, to help job seekers in Bahrain understand their labour rights, develop professional tools like CVs and cover letters, and get fully ready for the job market — alongside specialised HR and labour-law compliance consulting for companies.</span>
     </p>
 
-    <div class="values-grid">
-      <div class="value-card reveal">
-        <h3><span class="i18n-ar">القيم</span><span class="i18n-en">Our Values</span></h3>
-        <ul>
-          <li><span class="i18n-ar">سرية تامة للمعلومات الشخصية</span><span class="i18n-en">Full confidentiality of personal information</span></li>
-          <li><span class="i18n-ar">جودة عالية في التعليم والتحضير</span><span class="i18n-en">High-quality preparation and coaching</span></li>
-          <li><span class="i18n-ar">تعليم متكامل يغطي كل جانب</span><span class="i18n-en">Integrated, well-rounded learning</span></li>
-          <li><span class="i18n-ar">شفافية كاملة في كل خطوة</span><span class="i18n-en">Full transparency at every step</span></li>
-        </ul>
+    <div class="values-wrap reveal">
+      <div class="tabs values-tabs" role="tablist">
+        <button class="tab-btn active" data-values-tab="values"><span class="i18n-ar">القيم</span><span class="i18n-en">Values</span></button>
+        <button class="tab-btn" data-values-tab="message"><span class="i18n-ar">الرسالة</span><span class="i18n-en">Mission</span></button>
+        <button class="tab-btn" data-values-tab="vision"><span class="i18n-ar">الرؤية</span><span class="i18n-en">Vision</span></button>
       </div>
-      <div class="value-card reveal">
-        <h3><span class="i18n-ar">الرسالة</span><span class="i18n-en">Our Mission</span></h3>
-        <p>
-          <span class="i18n-ar">نهدف إلى رفع ثقة البحرينيين بقدراتهم، وتحقيق تنافسية عالية في سوق العمل البحريني.</span>
-          <span class="i18n-en">To raise Bahrainis' confidence in their abilities, and help them compete strongly in the Bahraini job market.</span>
-        </p>
-      </div>
-      <div class="value-card reveal">
-        <h3><span class="i18n-ar">الرؤية</span><span class="i18n-en">Our Vision</span></h3>
-        <p>
-          <span class="i18n-ar">تطوير وتمكين الجيل القادم من الطاقات البحرينية الاحترافية.</span>
-          <span class="i18n-en">Developing and empowering the next generation of professional Bahraini talent.</span>
-        </p>
+      <div class="value-card">
+        <div class="value-card-panel active" data-values-panel="values">
+          <h3><span class="i18n-ar">القيم</span><span class="i18n-en">Our Values</span></h3>
+          <ul>
+            <li><span class="i18n-ar">سرية تامة للمعلومات الشخصية</span><span class="i18n-en">Full confidentiality of personal information</span></li>
+            <li><span class="i18n-ar">جودة عالية في التعليم والتحضير</span><span class="i18n-en">High-quality preparation and coaching</span></li>
+            <li><span class="i18n-ar">تعليم متكامل يغطي كل جانب</span><span class="i18n-en">Integrated, well-rounded learning</span></li>
+            <li><span class="i18n-ar">شفافية كاملة في كل خطوة</span><span class="i18n-en">Full transparency at every step</span></li>
+          </ul>
+        </div>
+        <div class="value-card-panel" data-values-panel="message">
+          <h3><span class="i18n-ar">الرسالة</span><span class="i18n-en">Our Mission</span></h3>
+          <p>
+            <span class="i18n-ar">نهدف إلى رفع ثقة البحرينيين بقدراتهم، وتحقيق تنافسية عالية في سوق العمل البحريني.</span>
+            <span class="i18n-en">To raise Bahrainis' confidence in their abilities, and help them compete strongly in the Bahraini job market.</span>
+          </p>
+        </div>
+        <div class="value-card-panel" data-values-panel="vision">
+          <h3><span class="i18n-ar">الرؤية</span><span class="i18n-en">Our Vision</span></h3>
+          <p>
+            <span class="i18n-ar">تطوير وتمكين الجيل القادم من الطاقات البحرينية الاحترافية.</span>
+            <span class="i18n-en">Developing and empowering the next generation of professional Bahraini talent.</span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -1507,6 +1536,20 @@
           document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
           document.getElementById(btn.dataset.tab).classList.add('active');
         });
+      });
+    });
+  }catch(e){}
+
+  // about section: values / mission / vision tabs
+  try{
+    const valBtns = document.querySelectorAll('.tab-btn[data-values-tab]');
+    valBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        valBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.value-card-panel').forEach(p => p.classList.remove('active'));
+        const panel = document.querySelector(`.value-card-panel[data-values-panel="${btn.dataset.valuesTab}"]`);
+        if(panel) panel.classList.add('active');
       });
     });
   }catch(e){}
