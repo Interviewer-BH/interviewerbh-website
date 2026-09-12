@@ -34,6 +34,7 @@
     --purple:#7C5CB0;
     --teal:#16967F;
     --brand-burgundy:#54071D;
+    --brand-burgundy-light:#8C1D3F;
     --line: rgba(28,36,48,.12);
     --shadow: 0 24px 60px -24px rgba(28,36,48,.35);
     --shadow-sm: 0 10px 30px -14px rgba(28,36,48,.28);
@@ -291,7 +292,7 @@
     border-radius:44% 56% 62% 38% / 46% 40% 60% 54%;
   }
   .hero-photo-frame{
-    position:relative; z-index:1; width:min(360px,80%);
+    position:relative; z-index:1; width:min(320px,76%);
     border-radius:32px; overflow:hidden;
     box-shadow:var(--shadow);
     border:6px solid var(--paper);
@@ -305,13 +306,23 @@
   }
   .floating-badge.b2{bottom:6%; inset-inline-start:-4%;}
   .floating-badge b{font-family:var(--font-display); font-size:1.3rem; color:var(--sage-deep);}
-  /* Job-seekers badge stacked directly above the trust badge, sharing one anchored corner */
-  .floating-badge-group{position:absolute; z-index:2; display:flex; flex-direction:column; gap:10px;}
+  /* Job-seekers badge stacked directly above the trust badge, sharing one anchored corner.
+     Deliberately styled as a solid button (not a plain card like the trust badge below it)
+     so it reads unmistakably as clickable — same pill/gradient/shadow language as .btn-primary
+     and .btn-gold elsewhere on the page, just in the new brand burgundy. */
+  .floating-badge-group{position:absolute; z-index:2; display:flex; flex-direction:column; gap:18px;}
   .floating-badge-group .floating-badge{position:static;}
   .floating-badge-group.b1{top:8%; inset-inline-end:-6%;}
-  .jsc-badge{transition:transform .2s ease, box-shadow .2s ease;}
-  .jsc-badge:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
-  .jsc-badge-arrow{display:inline-flex; flex-shrink:0; transition:transform .2s ease;}
+  .jsc-badge{
+    position:static; border-radius:999px;
+    padding:16px 26px; gap:10px;
+    background:linear-gradient(95deg,var(--brand-burgundy),var(--brand-burgundy-light));
+    color:#fff; font-size:1.02rem; font-weight:700;
+    box-shadow:0 14px 30px -12px rgba(84,7,29,.55);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .jsc-badge:hover{transform:translateY(-3px); box-shadow:0 18px 36px -12px rgba(84,7,29,.65);}
+  .jsc-badge-arrow{display:inline-flex; flex-shrink:0; font-size:1.1rem; transition:transform .2s ease;}
   .jsc-badge:hover .jsc-badge-arrow{transform:translate(3px,-3px);}
   @media(max-width:920px){
     .hero-grid{grid-template-columns:1fr; gap:44px;}
@@ -771,7 +782,7 @@
       <div class="blob"></div>
       <div class="floating-badge-group b1">
         <a class="floating-badge jsc-badge" href="https://docs.google.com/forms/d/e/1FAIpQLSflWmZsn8dNyf961_Dao2AUEPpD92sj6mbOqKwJn5boVde2fw/viewform" target="_blank" rel="noopener noreferrer">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#54071D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 5 18.5V20"/><circle cx="9.5" cy="8" r="3.5"/><path d="M19 20v-1.5a3.5 3.5 0 0 0-2.5-3.36"/><path d="M15 4.5a3.5 3.5 0 0 1 0 6.79"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 5 18.5V20"/><circle cx="9.5" cy="8" r="3.5"/><path d="M19 20v-1.5a3.5 3.5 0 0 0-2.5-3.36"/><path d="M15 4.5a3.5 3.5 0 0 1 0 6.79"/></svg>
           <span class="i18n-ar">مجتمع الباحثين عن عمل</span><span class="i18n-en">Job Seekers Community</span>
           <span class="jsc-badge-arrow" aria-hidden="true">↗</span>
         </a>
